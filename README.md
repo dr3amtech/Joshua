@@ -1,5 +1,5 @@
 # Joshua
-Appointment Application
+Simple Appointment Application
 (IN PROGRESS)
 
 AppointmentApp
