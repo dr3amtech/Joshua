@@ -67,10 +67,16 @@
 					<th>DATE</th>
 					<th>Time</th>
 					<th>Description</th>
-				</tr>
+					
 			</thead>
 			<tbody>
+			<tr id=trid> 
+							<td id=td1></td>
+							<td id=td2></td>
+							<td id=td3></td></tr>
+				</tr>
 			</tbody>
+			
 		</table>
 	</div>
 
@@ -86,11 +92,9 @@
 					function($) {
 					//document.getElementById("appointmentTables").empty();
 					//document.getElementById("appointmentTables").hide();
-
 						$("#bth-NewAppointment")
 								.click(
 										function(event) {
-
 											event.preventDefault();
 											addAppointments();
 											$(
@@ -117,40 +121,29 @@
 															.getElementById("Add-form"))
 													.append(
 															'<label id="decsription">Description:</label> <input type="text" class="form-control" id="DescInput"/>');
-
 										});
-
 						$("#search-form").submit(function(event) {
-
 							// Disble the search button
 							enableSearchButton(false);
-
 							// Prevent the form from submitting via the browser.
 							event.preventDefault();
-
 							getAppointments();
 							//searchViaAjax();
-
 						});
 						
 						$("#Add-form").submit(function(event) {
-
 			// Disble the search button
 			enableSearchButton(false);
-
 			// Prevent the form from submitting via the browser.
 			event.preventDefault();
-
 			addApointment()
 			//searchViaAjax();
-
 		});
 		
-
 					});
 	function cancleOption() {
 		console.log("Adding Button");
-		$(document.getElementById("appointmentTables")).hide();
+	
 		$(document.getElementById("CANCELBUTTON")).remove();
 		$(document.getElementById("ADD")).remove();
 		$(document.getElementById("DateInput")).remove();
@@ -161,13 +154,10 @@
 		$(document.getElementById("bth-NewAppointment")).show();
 		$(document.getElementById("search-form")).show();
 		
-
 	}
-
 	function addAppointments() {
 		console.log("Adding Appointments Buttons: ");
 		$(document.getElementById("search-form")).hide();
-
 	}
 	function addApointment() {
 	$(document.getElementById("appointmentTables tr")).remove();
@@ -188,7 +178,6 @@
 			success : function(data) {
 				console.log("SUCCESS");
 				displayIt(data);
-
 			},
 			error : function(e) {
 				console.log(e);
@@ -201,8 +190,8 @@
 		});
 	}
 	function getAppointments() {
+	  
 		
-		$(document.getElementById("appointmentTables")).show();
 		var search = {}
 		search["description"] =  $(document.getElementById("userInput")).val();
 		$.ajax({
@@ -216,6 +205,8 @@
 				console.log("SUCCESS: ", data);
 				displayResults(data)
 				display(data);
+				
+				
 			},
 			error : function(e) {
 				console.log("ERROR: ", e);
@@ -224,17 +215,14 @@
 			done : function(e) {
 				console.log("Done");
 				enableSearcgButton(true);
+				
 			}
-
 		});
 	}
-
 	function searchViaAjax() {
-
 		var search = {}
 		search["username"] = $("#username").val();
 		search["email"] = $("#email").val();
-
 		$.ajax({
 			type : "POST",
 			contentType : "application/json",
@@ -255,34 +243,45 @@
 				enableSearchButton(true);
 			}
 		});
-
 	}
-
 	function enableSearchButton(flag) {
 		$("#btn-search").prop("disabled", flag);
 	}
-
 	function display(data) {
 		var json = "<h4>Ajax Response</h4><pre>"
 				+ JSON.stringify(data, null, 4) + "</pre>";
 		$('#feedback').html(json);
 	}
-
 	function displayResults(data) {
-		$(document.getElementById("td1")).prev().html("");
-		$(document.getElementById("td2")).prev().html("");
-		$(document.getElementById("td3")).prev().html("");
-	
+		var x=0;
+		 $("#appointmentTables tr").remove(); 
 	for(ar in data.appointmentResults){
 	
 	
-		
-		
-		 appointmentTables = '<tr>' +
+	//$('#appointmentTables > tr > td').remove();
+		 
+		 var table = document.getElementById("appointmentTables");
+
+// Create an empty <tr> element and add it to the 1st position of the table:
+var row = table.insertRow(x);
+
+// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+var cell1 = row.insertCell(0);
+var cell2 = row.insertCell(1);
+var cell3 = row.insertCell(2);
+
+// Add some text to the new cells:
+cell1.innerHTML = data.appointmentResults[ar].timeS;
+cell2.innerHTML = data.appointmentResults[ar].appointmentDateS;
+cell3.innerHTML = data.appointmentResults[ar].description;
+		 x++;
+	    
+		/*  appointmentTables = '<tr id=trid>' +
 							'<td id=td1>' + data.appointmentResults[ar].timeS + '</td>' +
 							'<td id=td2>' + data.appointmentResults[ar].appointmentDateS + '</td>'+
 							'<td id=td3>' + data.appointmentResults[ar].description+ '</td></tr>';
 						  $('#appointmentTables').append(appointmentTables);
+						  */
 						 }
 						 
 						
