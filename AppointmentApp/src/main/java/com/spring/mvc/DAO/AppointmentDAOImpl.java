@@ -1,9 +1,7 @@
 package com.spring.mvc.DAO;
 
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -12,12 +10,11 @@ import org.hibernate.SessionFactory;
 
 import com.spring.mvc.config.Connection;
 import com.spring.mvc.pojo.Appointment;
-import com.spring.mvc.pojo.SearchCriteria;
+
 
 public class AppointmentDAOImpl implements AppointmentDAO {
 	@SuppressWarnings("unused")
 	private static final long serialVersionUID = 1L;
-	private static final String Appointment = null;
 	private static SessionFactory sessionFactory = null;
 	private static Session session;
 

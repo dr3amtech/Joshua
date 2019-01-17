@@ -193,7 +193,6 @@ public class AjaxController {
 	
 	//simulate search Results 
 	public List<Appointment> FinaAllAppointments(){
-		String ld =  LocalDateTime.now().toString();
 		List<Appointment> appointments = new ArrayList<>();
 		AppointmentDAO appimpl = new AppointmentDAOImpl();
 		appointments =appimpl.findAllAppointments();
