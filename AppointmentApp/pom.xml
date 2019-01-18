@@ -3,7 +3,7 @@
 	<groupId>com.spring</groupId>
 	<artifactId>AppointmentApp</artifactId>
 	<packaging>war</packaging>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>AppointmentApp</name>
 
 	<properties>
@@ -133,7 +133,7 @@
 	</dependencies>
 	<!--Build Properties -->
 	<build>
-	   <finalName>AppointmentApp</finalName>
+	   <finalName>AppointmentApp-1.0</finalName>
         <pluginManagement>
             <plugins>
                <plugin>
