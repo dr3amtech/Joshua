@@ -19,13 +19,13 @@
 
 	
 	
-	<!--<scm>
-	Source Control Management
+	<scm>
+	<!--Source Control Management -->
         <connection>scm:git:https://github.com/dr3amtech/Joshua.git</connection>
         <url>https://github.com/dr3amtech/Joshua.git</url>
         <developerConnection>scm:git:https://github.com/dr3amtech/Joshua.git</developerConnection>
         <tag>v1.0</tag>
-    </scm>-->
+    </scm>
 	
 	<distributionManagement>
 		<!-- Distribution Management Nexus-->
