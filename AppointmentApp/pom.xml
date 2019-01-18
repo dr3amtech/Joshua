@@ -16,8 +16,33 @@
 		<jcl.slf4j.version>1.7.12</jcl.slf4j.version>
 		<jstl.version>1.2</jstl.version>
 		<servletapi.version>3.1.0</servletapi.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+	
+	
+	<scm>
+	<!--Source Control Management-->
+        <connection>scm:git:https://github.com/dr3amtech/Joshua.git</connection>
+        <url>https://github.com/dr3amtech/Joshua.git</url>
+        <developerConnection>scm:git:https://github.com/dr3amtech/Joshua.git</developerConnection>
+        <tag>v1.0</tag>
+    </scm>
+	
+	<distributionManagement>
+		<!-- Distribution Management Nexus-->
+        <repository>
+            <id>deployment</id>
+            <name>Internal Releases</name>
+            <url>http://localhost:8081/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>deployment</id>
+            <name>Internal Snapshot Releases</name>
+            <url>http://localhost:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+	<!--Dependencies -->
 	<dependencies>
 		
 		<dependency>
@@ -60,13 +85,6 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
 			<version>${jackson.version}</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -115,31 +133,63 @@
 	
 
 	</dependencies>
-
+	<!--Build Properties -->
 	<build>
-
-		<plugins>
-			<plugin>
+	   <finalName>AppointmentApp</finalName>
+        <pluginManagement>
+            <plugins>
+               <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.3</version>
 				<configuration>
 					<source>${jdk.version}</source>
 					<target>${jdk.version}</target>
+					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
-
-			<plugin>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>9.2.11.v20150529</version>
-				<configuration>
-					<scanIntervalSeconds>10</scanIntervalSeconds>
-					<webApp>
-						<contextPath>/ApplicationAPP</contextPath>
-					</webApp>
-				</configuration>
-			</plugin>
+                <plugin>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>2.3</version>
+                    <configuration>
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.5.1</version>
+                    <configuration>
+                        <tagNameFormat>v@{project.version}</tagNameFormat>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <!-- do not release profile from Maven super pom -->
+                        <useReleaseProfile>false</useReleaseProfile>
+                        <!--  instead use our own one called release, see below -->
+                        <releaseProfiles>release</releaseProfiles>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.10.1</version>
+                    <configuration>
+                        <show>private</show>
+                        <nohelp>true</nohelp>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>2.4</version>
+                </plugin>
+				<plugin>
+    <groupId>org.apache.tomcat.maven</groupId>
+    <artifactId>tomcat7-maven-plugin</artifactId>
+    <version>2.2</version>
+    <configuration>
+     <url>http://localhost:8080/manager/text</url>
+     <username>tomcat</username>
+     <password>bullshxt</password>
+    </configuration>
+   </plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -153,17 +203,8 @@
 				</configuration>
 			</plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.6</version>
-				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-				</configuration>
-			</plugin>
-
 			<!-- Deploy to WildFly -->
-			<plugin>
+			<!--<plugin>
 				<groupId>org.wildfly.plugins</groupId>
 				<artifactId>wildfly-maven-plugin</artifactId>
 				<version>1.1.0.Alpha5</version>
@@ -174,9 +215,44 @@
 					<password>admin</password>
 					<name>ApplicationAPP.war</name>
 				</configuration>
-			</plugin>
+			</plugin>-->
 
-		</plugins>
+		 </plugins>
+
+        </pluginManagement>
 	</build>
+	 <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
 
+    </profiles>
 </project>

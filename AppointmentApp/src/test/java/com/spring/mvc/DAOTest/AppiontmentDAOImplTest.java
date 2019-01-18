@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.spring.mvc.DAO.AppointmentDAO;
@@ -13,12 +14,12 @@ import com.spring.mvc.DAO.AppointmentDAOImpl;
 import com.spring.mvc.pojo.Appointment;
 
 
-
+@Ignore
 public class AppiontmentDAOImplTest {
 	
 	
 	
-	//@Ignore
+	@Ignore
 	@Test
 	public void TestAddAppointmentTOSchedule() {
 		String ld =  LocalDateTime.now().toString();
@@ -26,13 +27,14 @@ public class AppiontmentDAOImplTest {
 		Appointment oneIndex1 =new Appointment(1L,"Appointment Description1",ld,ld,ld.toString(),ld.toString());
 		aptimpl.addAppointmentTOSchedule(oneIndex1);
 	}
+	@Ignore
 	@Test 
 	public void findAllAppointments() {
 		AppointmentDAO apt = new AppointmentDAOImpl();
 		System.out.println(apt.findAllAppointments());
 	}
 	
-	
+	@Ignore
 	@Test
 	public void TestTimeOpenAndAfterCurrentTime(){
 		
