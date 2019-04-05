@@ -2,7 +2,7 @@
 Simple Appointment Application
 (IN PROGRESS)
 
-AppointmentApp
+AppointmentApp CI/CD
 Template for Spring 4 MVC + jQuery Ajax + Jackson2, using Maven build tool.
 
 ###1. Technologies used
